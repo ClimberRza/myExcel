@@ -41,6 +41,7 @@ module.exports = {
   devServer: {
     port: 3000,
     hot: isDev,
+    watchFiles: ['src/index.html'], // Здесь изменения
   },
   plugins: [
     isDev ? new ESLintPlugin() : null,
