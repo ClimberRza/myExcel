@@ -2,7 +2,7 @@ const CODES = {
   A: 65,
   Z: 90
 }
-console.log(1)
+
 export function createTable(rowsCount=40) {
   const colsCount = CODES.Z - CODES.A + 1
   const rows = []
