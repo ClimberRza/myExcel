@@ -16,7 +16,9 @@
     "arrow-parens": "off",
     "comma-dangle": "off",
     "object-curly-spacing":"off",
-    "css-semicolonexpected": "off"
+    "css-semicolonexpected": "off",
+    "operator-linebreak": "off",
+    "no-debugger": "off"
   },
   "extends": ["eslint:recommended", "google"]
 }
