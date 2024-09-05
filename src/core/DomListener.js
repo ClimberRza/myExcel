@@ -10,9 +10,9 @@ export class DomListener {
   }
 
   initDOMListeners() {
+    console.log('initDomListeners')
     this.listeners.forEach((listener) => {
       const method = getMethodName(listener)
-
       if (!this[method]) {
         throw new Error(
             `Method ${method} is not implemented in ${this.name} component`
@@ -24,11 +24,21 @@ export class DomListener {
     })
   }
 
-  removeDOMListeners() {
-    this.listeners.forEach((listener) => {
+  removeDOMListeners(removingArr) {
+    const removeListener = (listener) => {
       const method = getMethodName(listener)
       this.$root.off(listener, this[method])
-    })
+    }
+
+    if (!removingArr.length) {
+      this.listeners.forEach(removeListener)
+    } else {
+      // eslint-disable-next-line max-len
+      console.log(this.listeners.filter(listener => removingArr.includes(listener)))
+      // eslint-disable-next-line max-len
+      this.listeners = this.listeners.filter(listener => !removingArr.includes(listener))
+      console.log(this.listeners)
+    }
   }
 }
 

@@ -7,11 +7,25 @@ export class Table extends ExcelComponent {
   constructor($root) {
     super($root, {
       name: 'Table',
-      listeners: []
+      listeners: ['mousedown']
     })
   }
 
   toHTML() {
     return createTable()
+  }
+
+  onMousedown(event) {
+    if (event.target.dataset.resize) {
+      this.listeners.push('mousemove', 'mouseup')
+      this.init()
+    }
+  }
+
+  onMousemove(event) {
+  }
+
+  onMouseup(event) {
+    this.destroy(['mousemove', 'mouseup'])
   }
 }

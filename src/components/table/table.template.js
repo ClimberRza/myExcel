@@ -9,7 +9,7 @@ export function createTable(rowsCount=40) {
   const cols = new Array(colsCount)
       .fill('')
       .map(toChar)
-      .map((el) => createCol(el))
+      .map((el) => toColumn(el))
       .join('')
 
   rows.push(createRow('', cols))
@@ -30,14 +30,26 @@ function createCell() {
   return `<div class="cell" contenteditable></div>`
 }
 
-function createCol(content) {
-  return `<div class="column">${content}</div>`
+function toColumn(content) {
+  return `
+  <div class="column">
+  ${content}
+  <div class="col-resize" data-resize="col"></div>
+  </div>
+  `
 }
 
 function createRow(rowNumber, content) {
+  const resize = rowNumber
+    ? '<div class="row-resize" data-resize="row"></div>'
+    : ''
+
   return `
     <div class='row'>
-      <div class='row-info'>${rowNumber}</div>
+      <div class='row-info'>
+      ${rowNumber || ''}
+      ${resize}
+      </div>
       <div class='row-data'>${content}</div>
     </div>
     `

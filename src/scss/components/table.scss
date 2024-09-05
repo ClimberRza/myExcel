@@ -1,6 +1,16 @@
 @import '../mixins';
 @import '../variables';
 
+.col-resize, .row-resize {
+  background-color: $primary-color;
+  position: absolute;
+  opacity: 0;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
 .excel__table {
   position: absolute;
   left: 0;
@@ -19,11 +29,23 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
     min-width: $info-cell-width;
     height: 100%;
     border: 1px solid $border-color;
     border-top: none;
     background-color: #f8f9fa;
+
+    .row-resize {
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+
+      &:hover {
+        cursor: row-resize;
+      }
+    }
   }
 
   .row-data {
@@ -34,6 +56,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
     background-color: #f8f9fa;
     min-width: 40px;
     width: $cell-width;
@@ -41,6 +64,17 @@
     border-top: none;
     border-left: none;
     height: 100%;
+
+    .col-resize {
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 4px;
+
+      &:hover {
+        cursor: col-resize;
+      }
+    }
   }
 
   .cell {
@@ -57,7 +91,7 @@
     
     &.selected {
       border: none;
-      outline: 2px solid #3c74ff;
+      outline: 2px solid $primary-color;
       z-index: 2;
     }
   }
