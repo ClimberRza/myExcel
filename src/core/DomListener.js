@@ -1,7 +1,7 @@
 import { capitalize } from './utils'
 
 export class DomListener {
-  constructor($root, listeners=[]) {
+  constructor($root, listeners = []) {
     if (!$root) {
       throw new Error('No element provided for DomListener!')
     }
@@ -10,8 +10,7 @@ export class DomListener {
   }
 
   initDOMListeners() {
-    console.log('initDomListeners')
-    this.listeners.forEach((listener) => {
+    const initListener = (listener) => {
       const method = getMethodName(listener)
       if (!this[method]) {
         throw new Error(
@@ -21,24 +20,18 @@ export class DomListener {
       this[method] = this[method].bind(this)
       // То же самое, что addEventListener:
       this.$root.on(listener, this[method])
-    })
+    }
+
+    this.listeners.forEach(initListener)
   }
 
-  removeDOMListeners(removingArr) {
+  removeDOMListeners() {
     const removeListener = (listener) => {
       const method = getMethodName(listener)
       this.$root.off(listener, this[method])
     }
 
-    if (!removingArr.length) {
-      this.listeners.forEach(removeListener)
-    } else {
-      // eslint-disable-next-line max-len
-      console.log(this.listeners.filter(listener => removingArr.includes(listener)))
-      // eslint-disable-next-line max-len
-      this.listeners = this.listeners.filter(listener => !removingArr.includes(listener))
-      console.log(this.listeners)
-    }
+    this.listeners.forEach(removeListener)
   }
 }
 
