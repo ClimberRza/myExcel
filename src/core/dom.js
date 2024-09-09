@@ -27,6 +27,35 @@ class Dom {
     this.$el.removeEventListener(eventType, callback)
   }
 
+  closest(selector) {
+    return $(this.$el.closest(selector))
+  }
+
+  getCoords() {
+    return this.$el.getBoundingClientRect()
+  }
+
+  get data() {
+    return this.$el.dataset
+  }
+
+  findAll(selector) {
+    return Array.from(this.$el.querySelectorAll(selector)).map(node => $(node))
+  }
+
+  css(styles = {}) {
+    const props = Object.keys(styles)
+    for (const prop of props) {
+      this.$el.style[prop] = styles[prop]
+    }
+    return this
+  }
+
+  getCompStyle(prop) {
+    const styles = window.getComputedStyle(this.$el)
+    return styles.getPropertyValue(prop)
+  }
+
   append(node) {
     if (node instanceof Dom) {
       node = node.$el
@@ -39,6 +68,10 @@ class Dom {
     }
 
     return this
+  }
+
+  remove() {
+    this.$el.remove()
   }
 }
 // $('div').html('<h1>Test</h1>').clear()

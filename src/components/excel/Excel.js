@@ -21,13 +21,10 @@ export class Excel {
   }
 
   render() {
+    console.log('rendered')
     this.$el.append(this.getRoot())
     this.components.forEach(component => {
       component.init()
-      // setTimeout(() => {
-      //   component.destroy()
-      //   console.log(component.name + ' has been destroyed')
-      // }, 3000)
     })
   }
 }

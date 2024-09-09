@@ -1,7 +1,7 @@
 import { capitalize } from './utils'
 
 export class DomListener {
-  constructor($root, listeners=[]) {
+  constructor($root, listeners = []) {
     if (!$root) {
       throw new Error('No element provided for DomListener!')
     }
@@ -10,9 +10,8 @@ export class DomListener {
   }
 
   initDOMListeners() {
-    this.listeners.forEach((listener) => {
+    const initListener = (listener) => {
       const method = getMethodName(listener)
-
       if (!this[method]) {
         throw new Error(
             `Method ${method} is not implemented in ${this.name} component`
@@ -21,14 +20,18 @@ export class DomListener {
       this[method] = this[method].bind(this)
       // То же самое, что addEventListener:
       this.$root.on(listener, this[method])
-    })
+    }
+
+    this.listeners.forEach(initListener)
   }
 
   removeDOMListeners() {
-    this.listeners.forEach((listener) => {
+    const removeListener = (listener) => {
       const method = getMethodName(listener)
       this.$root.off(listener, this[method])
-    })
+    }
+
+    this.listeners.forEach(removeListener)
   }
 }
 

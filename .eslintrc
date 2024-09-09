@@ -18,7 +18,7 @@
     "object-curly-spacing":"off",
     "css-semicolonexpected": "off",
     "operator-linebreak": "off",
-    "no-debugger": "off"
+    "no-debugger": "off",
   },
   "extends": ["eslint:recommended", "google"]
 }
