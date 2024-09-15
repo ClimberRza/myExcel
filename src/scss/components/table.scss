@@ -94,11 +94,17 @@
     outline: none;
     color: #111;
     white-space: nowrap;
+    cursor: pointer;
+
+    &:hover {
+      border: 1px solid rgba(190, 186, 186, 0.788);
+    }
     
     &.selected {
       border: none;
-      outline: 2px solid $primary-color;
+      outline: 1px solid $primary-color;
       z-index: 2;
+      cursor: text;
     }
   }
 }
