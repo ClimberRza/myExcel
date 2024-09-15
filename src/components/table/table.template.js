@@ -1,10 +1,13 @@
+/* eslint-disable no-invalid-this */
 const CODES = {
   A: 65,
   Z: 90
 }
 
 export function createTable(rowsCount = 40) {
+  this.rowsCount = rowsCount
   const colsCount = CODES.Z - CODES.A + 1
+  this.colsCount = colsCount
   const rows = []
   const cols = new Array(colsCount)
       .fill('')
@@ -18,7 +21,7 @@ export function createTable(rowsCount = 40) {
     const rowNumber = i + 1
     const cells = new Array(colsCount)
         .fill('')
-        .map((_el, index) => createCell(index, rowNumber))
+        .map((_el, index) => createCell(index, i))
         .join('')
 
     rows.push(createRow(rowNumber, cells))
@@ -27,11 +30,12 @@ export function createTable(rowsCount = 40) {
   return rows.join('')
 }
 
-function createCell(index, number) {
+function createCell(col, row) {
   return `<div class="cell" 
   contenteditable 
-  data-col=${index}
-  data-row=${number}
+  data-col="${col}"
+  data-id="${row}:${col}"
+  data-type="cell"
   ></div>`
 }
 

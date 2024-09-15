@@ -20,11 +20,24 @@ class Dom {
 
   on(eventType, callback) {
     this.$el.addEventListener(eventType, callback)
-    // return this
+    return this
+  }
+
+  text(text) {
+    if (typeof(text) === 'string') {
+      this.$el.textContent = text
+      return this
+    }
+
+    if (this.$el.tagName.toLowerCase() === 'input') {
+      return this.$el.value.trim()
+    }
+    return this.$el.textContent.trim()
   }
 
   off(eventType, callback) {
     this.$el.removeEventListener(eventType, callback)
+    return this
   }
 
   closest(selector) {
@@ -39,8 +52,23 @@ class Dom {
     return this.$el.dataset
   }
 
+  find(selector) {
+    return $(this.$el.querySelector(selector))
+  }
+
   findAll(selector) {
     return Array.from(this.$el.querySelectorAll(selector)).map(node => $(node))
+  }
+
+  id(parse) {
+    if (parse) {
+      const id = this.id().split(':')
+      return {
+        row: +id[0],
+        col: +id[1]
+      }
+    }
+    return this.data.id
   }
 
   css(styles = {}) {
@@ -48,6 +76,21 @@ class Dom {
     for (const prop of props) {
       this.$el.style[prop] = styles[prop]
     }
+    return this
+  }
+
+  addClass(className) {
+    this.$el.classList.add(className)
+    return this
+  }
+
+  removeClass(className) {
+    this.$el.classList.remove(className)
+    return this
+  }
+
+  focus() {
+    this.$el.focus()
     return this
   }
 
