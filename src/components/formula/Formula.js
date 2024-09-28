@@ -1,4 +1,5 @@
 import { ExcelComponent } from '@core/ExcelComponent'
+import * as actions from '../../redux/actions'
 import { $ } from '../../core/dom'
 
 export class Formula extends ExcelComponent {
@@ -8,6 +9,7 @@ export class Formula extends ExcelComponent {
     super($root, {
       name: 'Formula',
       listeners: ['input', 'keydown'],
+      subscribe: ['formulaText'],
       ...options
     })
   }
@@ -23,13 +25,21 @@ export class Formula extends ExcelComponent {
   init() {
     super.init()
     this.$formula = this.$root.find('#formula')
-    this.$on('table:current-change', (text) => {
-      this.$formula.text(text)
-    })
+    const initialText = this.store.getState().formulaText
+    this.$formula.text(initialText)
+  }
+
+  storeChanged(changes) {
+    this.$formula.text(changes.formulaText || '')
   }
 
   onInput(event) {
-    this.$emit('formula:input', $(event.target).text())
+    const text = $(event.target).text()
+    this.$emit('formula:input', text)
+    this.$dispatch(actions.changeFormulaAction({
+      id: this.store.getState().currentCell,
+      value: $(event.target).text()
+    }))
   }
 
   onKeydown(event) {

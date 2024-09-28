@@ -1,5 +1,8 @@
-import { range } from './table.functions'
+import { range } from '../../core/utils'
 import { getNextSelector } from './table.functions'
+import { defaultStyles } from '../../constants'
+import * as actions from '../../redux/actions'
+import { parse } from '../../core/parse'
 
 export class TableSelection {
   static className = 'selected'
@@ -9,12 +12,23 @@ export class TableSelection {
     this.current = null
   }
 
+  get groupIds() {
+    return this.group.map($el => $el.id())
+  }
+
   selectOne($elem, table) {
+    this.current?.text(parse(this.current.data.value))
+
     this.clear()
     this.group.push($elem)
     this.current = $elem
     $elem.focus().addClass(TableSelection.className)
-    table.$emit('table:current-change', this.current.text())
+    const styles = $elem.getStyles(Object.keys(defaultStyles))
+    table.$dispatch(actions.changeCurrentAction({
+      id: this.current.id(),
+      value: this.current.text(),
+      styles
+    }))
   }
 
   selectAnother($elem) {
@@ -61,6 +75,12 @@ export class TableSelection {
       ))
       this.selectOne($nextCell, table)
     }
+  }
+
+  applyStyle(style) {
+    this.group.forEach($el => {
+      $el.css(style)
+    })
   }
 
   clear() {

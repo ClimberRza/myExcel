@@ -19,6 +19,7 @@
     "css-semicolonexpected": "off",
     "operator-linebreak": "off",
     "no-debugger": "off",
+    "no-case-declarations": "off"
   },
   "extends": ["eslint:recommended", "google"]
 }
