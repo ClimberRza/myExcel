@@ -33,10 +33,9 @@ export class Table extends ExcelComponent {
         .find(`[data-id="${initialCellId}"]`), this)
 
     this.$on('formula:input', text => {
-      const test = parse(text)
       this.selection.current
           .attr('data-value', text)
-          .text(test)
+          .text(parse(text))
     })
 
     this.$on('formula:done', () => {
