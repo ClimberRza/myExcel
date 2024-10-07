@@ -7,7 +7,8 @@ import {
   CHANGE_CURRENT_CELL,
   CHANGE_FORMULA_TEXT,
   APPLY_STYLE,
-  CHANGE_EXCEL_TITLE
+  CHANGE_EXCEL_TITLE,
+  SET_TABLE_DATE
 } from './types'
 
 export function rootReducer(state, action) {
@@ -69,6 +70,9 @@ export function rootReducer(state, action) {
       return {...state}
     case CHANGE_EXCEL_TITLE:
       state.excelTitle = value
+      return {...state}
+    case SET_TABLE_DATE:
+      state.openDate = payload
       return {...state}
     default:
       return state

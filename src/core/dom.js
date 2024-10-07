@@ -132,12 +132,12 @@ class Dom {
     this.$el.remove()
   }
 }
-// $('div').html('<h1>Test</h1>').clear()
+
 export function $(selector) {
   return new Dom(selector)
 }
 
-$.create = (tagName, classes='') => {
+$.create = (tagName, classes = '') => {
   const el = document.createElement(tagName)
   if (classes) {
     el.classList.add(classes)
