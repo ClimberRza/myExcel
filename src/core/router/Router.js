@@ -1,5 +1,6 @@
 import { $ } from '../dom'
 import { ActiveRoute } from './ActiveRoute'
+import { Loader } from '../../components/loader'
 
 export class Router {
   constructor(selector, routes) {
@@ -7,6 +8,7 @@ export class Router {
       throw new Error('Selector is not provided in class Router')
     }
 
+    this.loader = new Loader()
     this.$placeholder = $(selector)
     this.routes = routes
     this.changePageHandler = this.changePageHandler.bind(this)
@@ -19,17 +21,19 @@ export class Router {
     this.changePageHandler()
   }
 
-  changePageHandler() {
+  async changePageHandler() {
     if (this.activePage) {
       this.activePage.destroy()
     }
 
-    this.$placeholder.clear()
+    this.$placeholder.clear().append(this.loader)
 
     const field = ActiveRoute.getRoute()
     const NewPage = this.routes[field]
     this.activePage = new NewPage(ActiveRoute.param)
-    this.$placeholder.append(this.activePage.getRoot())
+    const root = await this.activePage.getRoot()
+
+    this.$placeholder.clear().append(root)
 
     this.activePage.afterRender()
   }

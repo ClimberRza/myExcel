@@ -1,14 +1,16 @@
 import { $ } from '../core/dom'
-import { Page } from '../core/Page'
-import { getAllTableRecords } from './dashboard.functions'
+import { Page } from '../core/page/Page'
+import { getAllTableRecords } from '../shared/dashboard.functions'
 
 export class DashboardPage extends Page {
   constructor(params) {
     super(params)
   }
 
-  getRoot() {
+  async getRoot() {
     const identifier = Date.now()
+
+    const tableRecords = await getAllTableRecords('date')
 
     return $.create('div', 'db').html(`
       <div class="db__header">
@@ -25,7 +27,7 @@ export class DashboardPage extends Page {
         </div>
       </div>
       <div class="db__table db__view">
-       ${getAllTableRecords('date')}
+       ${tableRecords}
       </div>`)
   }
 }
