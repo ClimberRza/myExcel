@@ -1,6 +1,6 @@
 import { storage } from '../core/utils'
 
-function getExcelKeys() {
+async function getExcelKeys() {
   const keys = []
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i)
@@ -9,11 +9,16 @@ function getExcelKeys() {
     }
     keys.push(key)
   }
+  await new Promise(resolve => {
+    setTimeout(() => {
+      resolve()
+    }, 1000)
+  })
   return keys
 }
 
-export function getAllTableRecords(sortType = 'date') {
-  const keys = getExcelKeys()
+export async function getAllTableRecords(sortType = 'date') {
+  const keys = await getExcelKeys()
 
   if (!keys.length) {
     return '<h1>Вы пока не создали ни одной таблицы.</h1>'
